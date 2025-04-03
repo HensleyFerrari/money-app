@@ -2,6 +2,14 @@
 import { useState, FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 interface TransactionFormProps {
   onAdd: (transaction: {
@@ -60,43 +68,79 @@ export default function TransactionForm({ onAdd }: TransactionFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="mb-6 space-y-4">
-      <Input
-        placeholder="Descrição"
-        value={form.description}
-        onChange={(e) => setForm({ ...form, description: e.target.value })}
-      />
-      <Input
-        type="text"
-        placeholder="Valor"
-        value={form.amount}
-        onChange={handleAmountChange}
-      />
-      <select
-        value={form.type}
-        onChange={(e) => setForm({ ...form, type: e.target.value })}
-        className="border p-2 rounded mr-5"
-      >
-        <option value="income">Entrada</option>
-        <option value="expense">Gasto</option>
-      </select>
-      <select
-        value={form.category}
-        onChange={(e) => setForm({ ...form, category: e.target.value })}
-        className="border p-2 rounded"
-      >
-        <option value="">Selecione a categoria</option>
-        <option value="conta fixa">Conta Fixa</option>
-        <option value="comida">Comida</option>
-        <option value="entretenimento">Entretenimento</option>
-        <option value="salario">Salário</option>
-        <option value="outros">Outros</option>
-      </select>
-      <Input
-        type="date"
-        value={form.date}
-        onChange={(e) => setForm({ ...form, date: e.target.value })}
-      />
-      <Button type="submit">Adicionar Transação</Button>
+      <div className="space-y-2">
+        <Label htmlFor="description">Descrição</Label>
+        <Input
+          id="description"
+          placeholder="Descrição"
+          value={form.description}
+          onChange={(e) => setForm({ ...form, description: e.target.value })}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="amount">Valor</Label>
+        <Input
+          id="amount"
+          type="text"
+          placeholder="Valor"
+          value={form.amount}
+          onChange={handleAmountChange}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="type">Tipo</Label>
+          <Select
+            value={form.type}
+            onValueChange={(value) =>
+              setForm({ ...form, type: value as "income" | "expense" })
+            }
+          >
+            <SelectTrigger id="type">
+              <SelectValue placeholder="Selecione o tipo" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="income">Entrada</SelectItem>
+              <SelectItem value="expense">Gasto</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="category">Categoria</Label>
+          <Select
+            value={form.category}
+            onValueChange={(value) => setForm({ ...form, category: value })}
+          >
+            <SelectTrigger id="category">
+              <SelectValue placeholder="Selecione a categoria" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="conta fixa">Conta Fixa</SelectItem>
+              <SelectItem value="comida">Comida</SelectItem>
+              <SelectItem value="entretenimento">Entretenimento</SelectItem>
+              <SelectItem value="salario">Salário</SelectItem>
+              <SelectItem value="outros">Outros</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="date">Data</Label>
+        <Input
+          id="date"
+          type="date"
+          value={form.date}
+          onChange={(e) => setForm({ ...form, date: e.target.value })}
+        />
+      </div>
+
+      <Button type="submit" className="w-full">
+        Adicionar Transação
+      </Button>
     </form>
   );
 }

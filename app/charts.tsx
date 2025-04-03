@@ -48,7 +48,7 @@ export default function ChartsPage() {
         <CardHeader>
           <CardTitle>Gráficos de Transações</CardTitle>
         </CardHeader>
-        <CardContent style={{ backgroundColor: "#fff" }}>
+        <CardContent className="bg-white dark:bg-gray-900">
           <BarChart width={500} height={300} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
